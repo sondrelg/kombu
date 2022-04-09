@@ -160,7 +160,7 @@ class Message:
         self.channel.basic_reject(self.delivery_tag, requeue=requeue)
         self._state = 'REJECTED'
 
-    def requeue(self):
+    def requeue(self) -> None:
         """Reject this message and put it back on the queue.
 
         Warning:

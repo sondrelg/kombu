@@ -455,7 +455,7 @@ class MultiChannelPoller:
     #: Set of one-shot callbacks to call after reading from socket.
     after_read = None
 
-    def __init__(self):
+    def __init__(self) -> None:
         # active channels
         self._channels = set()
         # file descriptor -> channel map.
@@ -467,7 +467,7 @@ class MultiChannelPoller:
         # one-shot callbacks called after reading from socket.
         self.after_read = set()
 
-    def close(self):
+    def close(self) -> None:
         for fd in self._chan_to_sock.values():
             try:
                 self.poller.unregister(fd)
@@ -525,7 +525,7 @@ class MultiChannelPoller:
         if not channel._in_listen:
             channel._subscribe()  # send SUBSCRIBE
 
-    def on_poll_start(self):
+    def on_poll_start(self) -> None:
         for channel in self._channels:
             if channel.active_queues:           # BRPOP mode?
                 if channel.qos.can_consume():
@@ -548,7 +548,7 @@ class MultiChannelPoller:
                     num=channel.unacked_restore_limit,
                 )
 
-    def maybe_check_subclient_health(self):
+    def maybe_check_subclient_health(self) -> None:
         for channel in self._channels:
             # only if subclient property is cached
             client = channel.__dict__.get('subclient')
@@ -747,10 +747,10 @@ class Channel(virtual.Channel):
         if register_after_fork is not None:
             register_after_fork(self, _after_fork_cleanup_channel)
 
-    def _after_fork(self):
+    def _after_fork(self) -> None:
         self._disconnect_pools()
 
-    def _disconnect_pools(self):
+    def _disconnect_pools(self) -> None:
         pool = self._pool
         async_pool = self._async_pool
 
@@ -866,7 +866,7 @@ class Channel(virtual.Channel):
         exchange, routing_key = self._fanout_queues[queue]
         return self._get_publish_topic(exchange, routing_key)
 
-    def _subscribe(self):
+    def _subscribe(self) -> None:
         keys = [self._get_subscribe_topic(queue)
                 for queue in self.active_fanout_queues]
         if not keys:
@@ -1073,7 +1073,7 @@ class Channel(virtual.Channel):
                 sizes = pipe.execute()
                 return sum(sizes[::2])
 
-    def close(self):
+    def close(self) -> None:
         self._closing = True
         if not self.closed:
             # remove from channel poller.
@@ -1089,7 +1089,7 @@ class Channel(virtual.Channel):
             self._close_clients()
         super().close()
 
-    def _close_clients(self):
+    def _close_clients(self) -> None:
         # Close connections
         for attr in 'client', 'subclient':
             try:
@@ -1181,7 +1181,7 @@ class Channel(virtual.Channel):
 
         if asynchronous:
             class Connection(connection_cls):
-                def disconnect(self):
+                def disconnect(self) -> None:
                     super().disconnect()
                     channel._on_connection_disconnect(self)
             connection_cls = Connection
@@ -1244,7 +1244,7 @@ class Channel(virtual.Channel):
         client = self._create_client(asynchronous=True)
         return client.pubsub()
 
-    def _update_queue_cycle(self):
+    def _update_queue_cycle(self) -> None:
         self._queue_cycle.update(self.active_queues)
 
     def _get_response_error(self):
@@ -1307,7 +1307,7 @@ class Transport(virtual.Transport):
                     pass
         cycle._on_connection_disconnect = _on_disconnect
 
-        def on_poll_start():
+        def on_poll_start() -> None:
             cycle_poll_start()
             [add_reader(fd, on_readable, fd) for fd in cycle.fds]
         loop.on_tick.add(on_poll_start)

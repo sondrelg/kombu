@@ -110,7 +110,7 @@ class BrokerState:
         self.bindings = {}
         self.queue_index = defaultdict(set)
 
-    def clear(self):
+    def clear(self) -> None:
         self.exchanges.clear()
         self.bindings.clear()
         self.queue_index.clear()
@@ -221,7 +221,7 @@ class QoS:
     def get(self, delivery_tag):
         return self._delivered[delivery_tag]
 
-    def _flush(self):
+    def _flush(self) -> None:
         """Flush dirty (acked/rejected) tags from."""
         dirty = self._dirty
         delivered = self._delivered
@@ -764,7 +764,7 @@ class Channel(AbstractChannel, base.StdChannel):
         """
         raise NotImplementedError('virtual channels do not support flow.')
 
-    def close(self):
+    def close(self) -> None:
         """Close channel.
 
         Cancel all consumers, and requeue unacked messages.
@@ -792,7 +792,7 @@ class Channel(AbstractChannel, base.StdChannel):
             return self.codecs.get(encoding).decode(body)
         return body
 
-    def _reset_cycle(self):
+    def _reset_cycle(self) -> None:
         self._cycle = FairCycle(
             self._get_and_deliver, self._active_queues, Empty)
 
@@ -867,7 +867,7 @@ class Management(base.Management):
         return [{'destination': q, 'source': e, 'routing_key': r}
                 for q, e, r in self.channel.list_bindings()]
 
-    def close(self):
+    def close(self) -> None:
         self.channel.close()
 
 

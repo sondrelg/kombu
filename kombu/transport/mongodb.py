@@ -69,7 +69,7 @@ class BroadcastCursor:
     def get_size(self):
         return self._cursor.count() - self._offset
 
-    def close(self):
+    def close(self) -> None:
         self._cursor.close()
 
     def purge(self, rewind=True):

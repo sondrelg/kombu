@@ -63,7 +63,7 @@ class Entry:
     def __call__(self):
         return self.fun(*self.args, **self.kwargs)
 
-    def cancel(self):
+    def cancel(self) -> None:
         try:
             self.tref.canceled = True
         except ReferenceError:  # pragma: no cover
@@ -172,7 +172,7 @@ class Timer:
             self.on_error(exc_info)
             return True
 
-    def stop(self):
+    def stop(self) -> None:
         pass
 
     def __iter__(self, min=min, nowfun=monotonic,
@@ -206,7 +206,7 @@ class Timer:
             else:
                 yield None, None
 
-    def clear(self):
+    def clear(self) -> None:
         self._queue[:] = []  # atomic, without creating a new list.
 
     def cancel(self, tref):

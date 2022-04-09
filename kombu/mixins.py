@@ -136,7 +136,7 @@ class ConsumerMixin:
     def get_consumers(self, Consumer, channel):
         raise NotImplementedError('Subclass responsibility')
 
-    def on_connection_revived(self):
+    def on_connection_revived(self) -> None:
         pass
 
     def on_consume_ready(self, connection, channel, consumers, **kwargs):
@@ -145,7 +145,7 @@ class ConsumerMixin:
     def on_consume_end(self, connection, channel):
         pass
 
-    def on_iteration(self):
+    def on_iteration(self) -> None:
         pass
 
     def on_decode_error(self, message, exc):

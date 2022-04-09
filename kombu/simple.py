@@ -86,13 +86,13 @@ class SimpleBase:
         _, size, _ = self.queue.queue_declare(passive=True)
         return size
 
-    def close(self):
+    def close(self) -> None:
         self.consumer.cancel()
 
     def _receive(self, message_data, message):
         self.buffer.append(message)
 
-    def _consume(self):
+    def _consume(self) -> None:
         if not self._consuming:
             self.consumer.consume(no_ack=self.no_ack)
             self._consuming = True

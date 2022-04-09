@@ -1008,7 +1008,7 @@ class Channel(base.StdChannel):
             queue = self._tag_to_queue.pop(consumer_tag, None)
             self.connection._callbacks.pop(queue, None)
 
-    def close(self):
+    def close(self) -> None:
         """Cancel all associated messages and close the Channel.
 
         This cancels all consumers by calling :meth:`basic_cancel` for each
@@ -1344,7 +1344,7 @@ class Connection:
         """
         return self._qpid_conn
 
-    def close(self):
+    def close(self) -> None:
         """Close the connection.
 
         Closing the connection will close all associated session, senders, or
@@ -1447,7 +1447,7 @@ class Transport(base.Transport):
         super().__init__(*args, **kwargs)
         self.use_async_interface = False
 
-    def verify_runtime_environment(self):
+    def verify_runtime_environment(self) -> None:
         """Verify that the runtime environment is acceptable.
 
         This method is called as part of __init__ and raises a RuntimeError

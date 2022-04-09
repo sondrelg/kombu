@@ -87,7 +87,7 @@ class MaybeChannelBound(Object):
             self._channel = channel
             self.when_bound()
 
-    def when_bound(self):
+    def when_bound(self) -> None:
         """Callback called when the class is bound."""
 
     def __repr__(self):

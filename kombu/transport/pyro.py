@@ -62,7 +62,7 @@ logger = get_logger(__name__)
 class Channel(virtual.Channel):
     """Pyro Channel."""
 
-    def close(self):
+    def close(self) -> None:
         super().close()
         if self.shared_queues:
             self.shared_queues._pyroRelease()
@@ -161,7 +161,7 @@ if pyro is not None:
         You have to run this as a separate (Pyro) service.
         """
 
-        def __init__(self):
+        def __init__(self) -> None:
             self.queues = {}
 
         def get_queue_names(self):

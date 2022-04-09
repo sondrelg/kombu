@@ -17,7 +17,7 @@ class MatcherRegistry:
     MatcherNotInstalled = MatcherNotInstalled
     matcher_pattern_first = ["pcre", ]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._matchers = {}
         self._default_matcher = None
 
@@ -111,12 +111,12 @@ register = registry.register
 unregister = registry.unregister
 
 
-def register_glob():
+def register_glob() -> None:
     """Register glob into default registry."""
     registry.register('glob', fnmatch)
 
 
-def register_pcre():
+def register_pcre() -> None:
     """Register pcre into default registry."""
     registry.register('pcre', rematch)
 

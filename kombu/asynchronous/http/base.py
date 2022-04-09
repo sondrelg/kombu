@@ -173,7 +173,7 @@ class Response:
         if self.error is None and (self.code < 200 or self.code > 299):
             self.error = HttpError(self.code, self.status, self)
 
-    def raise_for_error(self):
+    def raise_for_error(self) -> None:
         """Raise if the request resulted in an HTTP error code.
 
         Raises:
@@ -241,7 +241,7 @@ class BaseClient:
     def add_request(self, request):
         raise NotImplementedError('must implement add_request')
 
-    def close(self):
+    def close(self) -> None:
         pass
 
     def on_header(self, headers, line):

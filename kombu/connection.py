@@ -231,7 +231,7 @@ class Connection:
         )
         self._init_params(**dict(self._initial_params, **conn_params))
 
-    def maybe_switch_next(self):
+    def maybe_switch_next(self) -> None:
         """Switch to next URL given by the current failover strategy."""
         if self.cycle:
             self.switch(next(self.cycle))
@@ -334,14 +334,14 @@ class Connection:
                 pass
             self._connection = None
 
-    def _close(self):
+    def _close(self) -> None:
         """Really close connection, even if part of a connection pool."""
         self._do_close_self()
         self._do_close_transport()
         self._debug('closed')
         self._closed = True
 
-    def _do_close_transport(self):
+    def _do_close_transport(self) -> None:
         if self._transport:
             self._transport.client = None
             self._transport = None
@@ -368,7 +368,7 @@ class Connection:
         self.declared_entities.clear()
         self._connection = None
 
-    def release(self):
+    def release(self) -> None:
         """Close the connection (if open)."""
         self._close()
     close = release
@@ -1004,7 +1004,7 @@ class ConnectionPool(Resource):
         with self.acquire(block=block) as connection:
             yield connection, connection.default_channel
 
-    def setup(self):
+    def setup(self) -> None:
         if self.limit:
             q = self._resource.queue
             while len(q) < self.limit:
@@ -1029,7 +1029,7 @@ class ChannelPool(Resource):
     def new(self):
         return lazy(self.connection.channel)
 
-    def setup(self):
+    def setup(self) -> None:
         channel = self.new()
         if self.limit:
             q = self._resource.queue

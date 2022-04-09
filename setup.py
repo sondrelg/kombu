@@ -81,11 +81,11 @@ def extras(*p):
 class pytest(setuptools.command.test.test):
     user_options = [('pytest-args=', 'a', 'Arguments to pass to py.test')]
 
-    def initialize_options(self):
+    def initialize_options(self) -> None:
         super().initialize_options()
         self.pytest_args = []
 
-    def run_tests(self):
+    def run_tests(self) -> None:
         import pytest
         sys.exit(pytest.main(self.pytest_args))
 

@@ -100,10 +100,10 @@ class AsyncHTTPSConnection:
     def set_debuglevel(self, level):
         pass
 
-    def connect(self):
+    def connect(self) -> None:
         pass
 
-    def close(self):
+    def close(self) -> None:
         pass
 
     def putrequest(self, method, path):
@@ -113,7 +113,7 @@ class AsyncHTTPSConnection:
     def putheader(self, header, value):
         self.headers.append((header, value))
 
-    def endheaders(self):
+    def endheaders(self) -> None:
         pass
 
     def send(self, data):

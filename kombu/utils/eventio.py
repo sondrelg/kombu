@@ -56,7 +56,7 @@ except AttributeError:
 
 class _epoll:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._epoll = epoll()
 
     def register(self, fd, events):
@@ -83,7 +83,7 @@ class _epoll:
             if getattr(exc, 'errno', None) != errno.EINTR:
                 raise
 
-    def close(self):
+    def close(self) -> None:
         self._epoll.close()
 
 
@@ -91,7 +91,7 @@ class _kqueue:
     w_fflags = (KQ_NOTE_WRITE | KQ_NOTE_EXTEND |
                 KQ_NOTE_ATTRIB | KQ_NOTE_DELETE)
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._kqueue = kqueue()
         self._active = {}
         self.on_file_change = None
@@ -170,13 +170,13 @@ class _kqueue:
             self.on_file_change(file_changes)
         return list(events.items())
 
-    def close(self):
+    def close(self) -> None:
         self._kqueue.close()
 
 
 class _poll:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._poller = xpoll()
         self._quick_poll = self._poller.poll
         self._quick_register = self._poller.register
@@ -232,13 +232,13 @@ class _poll:
             ready.append((fd, events))
         return ready
 
-    def close(self):
+    def close(self) -> None:
         self._poller = None
 
 
 class _select:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._all = (self._rfd,
                      self._wfd,
                      self._efd) = set(), set(), set()
@@ -253,7 +253,7 @@ class _select:
             self._rfd.add(fd)
         return fd
 
-    def _remove_bad(self):
+    def _remove_bad(self) -> None:
         for fd in self._rfd | self._wfd | self._efd:
             try:
                 _selectf([fd], [], [], 0)
@@ -301,7 +301,7 @@ class _select:
             events[fd] = events.get(fd, 0) | ERR
         return list(events.items())
 
-    def close(self):
+    def close(self) -> None:
         self._rfd.clear()
         self._wfd.clear()
         self._efd.clear()

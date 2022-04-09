@@ -43,7 +43,7 @@ class TokenBucket:
     def pop(self):
         return self.contents.popleft()
 
-    def clear_pending(self):
+    def clear_pending(self) -> None:
         self.contents.clear()
 
     def can_consume(self, tokens=1):

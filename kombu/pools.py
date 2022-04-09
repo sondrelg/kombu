@@ -46,7 +46,7 @@ class ProducerPool(Resource):
     def new(self):
         return lazy(self.create_producer)
 
-    def setup(self):
+    def setup(self) -> None:
         if self.limit:
             for _ in range(self.limit):
                 self._resource.put_nowait(self.new())
@@ -66,7 +66,7 @@ class ProducerPool(Resource):
                 raise
         return p
 
-    def release(self, resource):
+    def release(self, resource) -> None:
         if resource.__connection__:
             resource.__connection__.release()
         resource.channel = None
@@ -139,7 +139,7 @@ def set_limit(limit, force=False, reset_after=False, ignore_errors=False):
     return limit
 
 
-def reset(*args, **kwargs):
+def reset(*args, **kwargs) -> None:
     """Reset all pools by closing open resources."""
     for pool in _all_pools():
         try:

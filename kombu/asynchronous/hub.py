@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from queue import Empty
 from time import sleep
 from types import GeneratorType as generator
+from typing import NoReturn
 
 from vine import Thenable, promise
 
@@ -30,7 +31,7 @@ class Stop(BaseException):
     """Stops the event loop."""
 
 
-def _raise_stop_error():
+def _raise_stop_error() -> NoReturn:
     raise Stop()
 
 
@@ -108,23 +109,23 @@ class Hub:
     def poller(self, value):
         self._poller = value
 
-    def reset(self):
+    def reset(self) -> None:
         self.close()
         self._create_poller()
 
-    def _create_poller(self):
+    def _create_poller(self) -> None:
         self._poller = poll()
         self._register_fd = self._poller.register
         self._unregister_fd = self._poller.unregister
 
-    def _close_poller(self):
+    def _close_poller(self) -> None:
         if self._poller is not None:
             self._poller.close()
             self._poller = None
             self._register_fd = None
             self._unregister_fd = None
 
-    def stop(self):
+    def stop(self) -> None:
         self.call_soon(_raise_stop_error)
 
     def __repr__(self):
@@ -180,7 +181,7 @@ class Hub:
         fd = fileno(fd)
         self._remove_from_loop(fd)
 
-    def run_forever(self):
+    def run_forever(self) -> None:
         self._running = True
         try:
             while 1:
@@ -191,7 +192,7 @@ class Hub:
         finally:
             self._running = False
 
-    def run_once(self):
+    def run_once(self) -> None:
         try:
             next(self.loop)
         except StopIteration:

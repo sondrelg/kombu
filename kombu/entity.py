@@ -594,7 +594,7 @@ class Queue(MaybeChannelBound):
     def __hash__(self):
         return hash(f'Q|{self.name}')
 
-    def when_bound(self):
+    def when_bound(self) -> None:
         if self.exchange:
             self.exchange = self.exchange(self.channel)
 

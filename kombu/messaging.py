@@ -83,7 +83,7 @@ class Producer:
         return (None, self.exchange, self.routing_key, self.serializer,
                 self.auto_declare, self.compression)
 
-    def declare(self):
+    def declare(self) -> None:
         """Declare the exchange.
 
         Note:
@@ -239,7 +239,7 @@ class Producer:
     def __exit__(self, *exc_info):
         self.release()
 
-    def release(self):
+    def release(self) -> None:
         pass
 
     close = release
@@ -411,7 +411,7 @@ class Consumer:
         if self.prefetch_count is not None:
             self.qos(prefetch_count=self.prefetch_count)
 
-    def declare(self):
+    def declare(self) -> None:
         """Declare queues, exchanges and bindings.
 
         Note:
@@ -477,7 +477,7 @@ class Consumer:
                 self._basic_consume(queue, no_ack=no_ack, nowait=True)
             self._basic_consume(T, no_ack=no_ack, nowait=False)
 
-    def cancel(self):
+    def cancel(self) -> None:
         """End all active queue consumers.
 
         Note:

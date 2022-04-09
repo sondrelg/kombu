@@ -83,7 +83,7 @@ class StdChannel:
         from kombu.messaging import Producer
         return Producer(self, *args, **kwargs)
 
-    def get_bindings(self):
+    def get_bindings(self) -> None:
         raise _LeftBlank(self, 'get_bindings')
 
     def after_reply_message_received(self, queue):
@@ -110,7 +110,7 @@ class Management:
     def __init__(self, transport):
         self.transport = transport
 
-    def get_bindings(self):
+    def get_bindings(self) -> None:
         raise _LeftBlank(self, 'get_bindings')
 
 
@@ -173,7 +173,7 @@ class Transport:
     def __init__(self, client, **kwargs):
         self.client = client
 
-    def establish_connection(self):
+    def establish_connection(self) -> None:
         raise _LeftBlank(self, 'establish_connection')
 
     def close_connection(self, connection):

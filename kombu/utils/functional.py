@@ -153,7 +153,7 @@ def memoize(maxsize=None, keyfun=None, Cache=LRUCache):
                 _M.hits += 1
             return value
 
-        def clear():
+        def clear() -> None:
             """Clear the cache and reset cache statistics."""
             cache.clear()
             _M.hits = _M.misses = 0

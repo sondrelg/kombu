@@ -55,7 +55,7 @@ def parenthesize_alias(first, second):
 class SerializerRegistry:
     """The registry keeps track of serialization methods."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._encoders = {}
         self._decoders = {}
         self._default_encode = None
@@ -286,7 +286,7 @@ def raw_encode(data):
     return content_type, content_encoding, payload
 
 
-def register_json():
+def register_json() -> None:
     """Register a encoder/decoder for JSON serialization."""
     from kombu.utils import json as _json
 
@@ -295,7 +295,7 @@ def register_json():
                       content_encoding='utf-8')
 
 
-def register_yaml():
+def register_yaml() -> None:
     """Register a encoder/decoder for YAML serialization.
 
     It is slower than JSON, but allows for more data types

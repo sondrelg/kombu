@@ -58,7 +58,7 @@ class Publisher(messaging.Producer):
     def send(self, *args, **kwargs):
         return self.publish(*args, **kwargs)
 
-    def close(self):
+    def close(self) -> None:
         super().close()
         self._closed = True
 
@@ -119,7 +119,7 @@ class Consumer(messaging.Consumer):
         self.backend = channel
         super().revive(channel)
 
-    def close(self):
+    def close(self) -> None:
         self.cancel()
         self.backend.close()
         self._closed = True
@@ -205,7 +205,7 @@ class ConsumerSet(messaging.Consumer):
         self.backend = channel
         super().revive(channel)
 
-    def close(self):
+    def close(self) -> None:
         self.cancel()
         if not self._provided_channel:
             self.channel.close()

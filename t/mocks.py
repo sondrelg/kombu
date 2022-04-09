@@ -143,7 +143,7 @@ class Channel(base.StdChannel):
     def exchange_unbind(self, *args, **kwargs):
         self._called('exchange_unbind')
 
-    def close(self):
+    def close(self) -> None:
         self._called('close')
 
     def message_to_python(self, message, *args, **kwargs):

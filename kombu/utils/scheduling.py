@@ -55,7 +55,7 @@ class FairCycle:
                 if tried >= len(self.resources) - 1:
                     raise
 
-    def close(self):
+    def close(self) -> None:
         """Close cycle."""
 
     def __repr__(self):

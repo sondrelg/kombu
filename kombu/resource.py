@@ -46,10 +46,10 @@ class Resource:
             register_after_fork(self, _after_fork_cleanup_resource)
         self.setup()
 
-    def setup(self):
+    def setup(self) -> None:
         raise NotImplementedError('subclass responsibility')
 
-    def _add_when_empty(self):
+    def _add_when_empty(self) -> None:
         if self.limit and len(self._dirty) >= self.limit:
             raise self.LimitExceeded(self.limit)
         # All taken, put new on the queue and
@@ -93,7 +93,7 @@ class Resource:
         else:
             R = self.prepare(self.new())
 
-        def release():
+        def release() -> None:
             """Release resource so it can be used by another thread.
 
             Warnings:
@@ -124,7 +124,7 @@ class Resource:
             self._dirty.discard(resource)
         self.close_resource(resource)
 
-    def release(self, resource):
+    def release(self, resource) -> None:
         if self.limit:
             self._dirty.discard(resource)
             self._resource.put_nowait(resource)
@@ -135,7 +135,7 @@ class Resource:
     def collect_resource(self, resource):
         pass
 
-    def force_close_all(self):
+    def force_close_all(self) -> None:
         """Close and remove all resources in the pool (also those in use).
 
         Used to close resources from parent processes after fork

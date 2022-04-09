@@ -61,7 +61,7 @@ class CurlClient(BaseClient):
         self._multi.add_handle(dummy_curl_handle)
         self._multi.remove_handle(dummy_curl_handle)
 
-    def close(self):
+    def close(self) -> None:
         self._timeout_check_tref.cancel()
         for _curl in self._curls:
             _curl.close()
@@ -76,11 +76,11 @@ class CurlClient(BaseClient):
     # the next two methods are used for linux/epoll workaround:
     # we temporarily remove all curl fds from hub, so curl cannot
     # close a fd which is still inside epoll
-    def _pop_from_hub(self):
+    def _pop_from_hub(self) -> None:
         for fd in self._fds:
             self.hub.remove(fd)
 
-    def _push_to_hub(self):
+    def _push_to_hub(self) -> None:
         for fd, events in self._fds.items():
             if events & READ:
                 self.hub.add_reader(fd, self.on_readable, fd)
@@ -136,7 +136,7 @@ class CurlClient(BaseClient):
             self._push_to_hub()
         self._process_pending_requests()
 
-    def _process_pending_requests(self):
+    def _process_pending_requests(self) -> None:
         while 1:
             q, succeeded, failed = self._multi.info_read()
             for curl in succeeded:
@@ -147,7 +147,7 @@ class CurlClient(BaseClient):
                 break
         self._process_queue()
 
-    def _process_queue(self):
+    def _process_queue(self) -> None:
         while 1:
             started = 0
             while self._free_list and self._pending:
